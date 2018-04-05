@@ -80,6 +80,7 @@ public class AddImgAction extends ActionSupport implements ServletRequestAware {
 
     @SuppressWarnings("unchecked")
     public String execute(){
+        System.out.printf("LLLLLLLLLLLLLLLLLLLLLLLLLLLL");
         HttpSession session = request.getSession();
         Integer userId = (Integer) session.getAttribute("userId");
         String userType = (String) session.getAttribute("userType");

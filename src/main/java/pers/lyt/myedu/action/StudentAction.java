@@ -1,6 +1,7 @@
 package pers.lyt.myedu.action;
 
 import com.opensymphony.xwork2.ActionSupport;
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.springframework.stereotype.Controller;
 import pers.lyt.myedu.entity.MyImage;
@@ -13,6 +14,7 @@ import pers.lyt.myedu.service.StudentSubService;
 import pers.lyt.myedu.service.SubjectService;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -39,7 +41,7 @@ public class StudentAction extends ActionSupport  implements ServletRequestAware
 
     private Student student;
 
-    private String resule1,resultA,resultB,resultC,error1,selec,newpassword,userId,userPwd,userName;
+    private String resule1,resultA,resultB,resultC,error1,selec,newpassword,userId,userPwd,userName,rememberMe;
 
     public String getNewpassword() {
         return newpassword;
@@ -135,11 +137,22 @@ public class StudentAction extends ActionSupport  implements ServletRequestAware
         this.resultC = resultC;
     }
 
+    public String getRememberMe() {
+        return rememberMe;
+    }
+
+    public void setRememberMe(String rememberMe) {
+        this.rememberMe = rememberMe;
+    }
+
     public String stu_login() throws Exception{
         HttpSession session = request.getSession();
-        if(userPwd == null || userId == null){
+
+        System.out.println("aaaaa ????");
+        if(userPwd == null || userId == null || userPwd.equals("") || userId.equals("")){
             return ERROR;
         }
+        System.out.println("uuuu = " + userPwd);
         student = new Student();
         student.setStu_pwd(new String(userPwd));
         student.setStu_id(new Integer(userId));
@@ -151,6 +164,7 @@ public class StudentAction extends ActionSupport  implements ServletRequestAware
             myImage = imgService.findImageByUserId(student.getStu_id());
             session.setAttribute("img",myImage);
             session.setAttribute("student",student);
+
             return "stu_login";
         }else {
             error1 = "用户名或密码错误";

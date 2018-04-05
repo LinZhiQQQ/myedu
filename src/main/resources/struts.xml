@@ -62,14 +62,10 @@
                 <param name="allowedTypes">
                     image/bmp,image/png,image/gif,image/jpeg,image/jpg
                 </param>
-                <param name="maximumSize">102400</param>
+                <param name="maximumSize">204800</param>
             </interceptor-ref>
             <interceptor-ref name="defaultStack"/>
 		</action>
-
-        <action name="allFile" class="pers.lyt.myedu.action.AllImg">
-            <result name="showAll">/showAllImg.jsp</result>
-        </action>
 	</package>
 
 </struts>   

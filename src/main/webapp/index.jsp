@@ -10,16 +10,45 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script type="text/javascript">
+        $(document).ready(function () {
+            if($.cookie("userPwd") != "" && $.cookie("userPwd") != undefined && $.cookie("userPwd") != null){
+                $("#userPwd").val($.cookie("userPwd"));
+                if($.cookie("userId") != "" && $.cookie("userId") != undefined && $.cookie("userId") != null){
+                    $("#userId").val($.cookie("userId"));
+                    if($.cookie("userType") == "student"){
+                        document.login.action="${pageContext.request.contextPath }/edu/edu1_stu_login.action";
+                        document.login.submit();
+                    }else if($.cookie("userType") == "teacher"){
+                        document.login.action="${pageContext.request.contextPath }/edu/edu2_tch_login.action";
+                        document.login.submit();
+                    }
+                }
+            }
+        })
+
         function registered() {
             document.login.action="${pageContext.request.contextPath }/edu/edu_to_regs.action";
             document.login.submit();
         }
         function logins() {
+            var check = document.getElementById("rememberMe");
+            if(check.checked){
+                $.cookie('userId',$("#userId").val(),  { expires: 7, path:"/" });
+                $.cookie('userPwd',$("#userPwd").val(),  { expires: 7, path:"/" });
+                console.log("添加cookies")
+            }else{
+                $.cookie('userId', "", { expires: 30, path:"/" });
+                $.cookie('userPwd', "", { expires: 30, path:"/" });
+            }
             if(document.getElementById("selec").value == "stu"){
+                $.cookie('userType',"student", { expires: 7, path:"/" });
                 document.login.action="${pageContext.request.contextPath }/edu/edu1_stu_login.action";
                 document.login.submit();
             }else{
+                $.cookie('userType',"teacher", { expires: 7 , path:"/"});
                 document.login.action="${pageContext.request.contextPath }/edu/edu2_tch_login.action";
                 document.login.submit();
             }
@@ -50,6 +79,7 @@
                 window.name="";
             }
         }
+
     </script>
 
     <title>My_Edu</title>
@@ -83,16 +113,17 @@
                             <option value="tch">教师</option>
                         </select>
                         <p style="display:inline">登陆账号:</p>
-                        <input type="text" name="userId" value="${userId}"/><br/>
+                        <input type="text" name="userId" id="userId" value="${userId}"/><br/>
                     </div>
                     <div style="margin-left:53px;margin-top:20px">
                         <p style="display:inline">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:</p>
-                        <input type="password" name="userPwd" value="${userPwd}" ><br/>
+                        <input type="password" name="userPwd" id="userPwd" value="${userPwd}" /><br/>
                     </div>
-                        <div style="margin-top:20px;margin-left: 10px">
-                            <button onclick="return check1(this.form)" class="btn" >登录</button>
-                            <button onclick="registered()"class="btn">注册</button>
-                        </div>
+                    <input type="checkbox" name="rememberMe" id="rememberMe"/>记住我的登陆
+                    <div style="margin-top:20px;margin-left: 10px">
+                        <button onclick="return check1(this.form)" class="btn" >登录</button>
+                        <button onclick="registered()"class="btn">注册</button>
+                    </div>
                     <font color="red">${error1}</font>
                 </form>
             </div>

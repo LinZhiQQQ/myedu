@@ -1,17 +1,17 @@
 package pers.lyt.myedu.action;
 
 import com.opensymphony.xwork2.ActionSupport;
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.springframework.stereotype.Controller;
+import pers.lyt.myedu.entity.MyImage;
 import pers.lyt.myedu.entity.Student_sub;
 import pers.lyt.myedu.entity.Subject;
 import pers.lyt.myedu.entity.Teacher;
-import pers.lyt.myedu.service.StudentService;
-import pers.lyt.myedu.service.StudentSubService;
-import pers.lyt.myedu.service.SubjectService;
-import pers.lyt.myedu.service.TeacherService;
+import pers.lyt.myedu.service.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Enumeration;
@@ -22,7 +22,7 @@ public class TeacherAction extends ActionSupport implements ServletRequestAware 
     private static final long serialVersionUID = 1L;
 
     private HttpServletRequest request;
-    private String userName,userPwd,userId,selec,error1,resule1,resultD,stu_id,sub_id,newScore;
+    private String userName,userPwd,userId,selec,error1,resule1,resultD,stu_id,sub_id,newScore,rememberMe;
     private Teacher teacher = new Teacher();
     private Subject subject = new Subject();
 
@@ -37,7 +37,10 @@ public class TeacherAction extends ActionSupport implements ServletRequestAware 
 
     @Resource
     private StudentService studentService;
-    
+
+    @Resource
+    private ImgService imgService;
+
     @Override
     public void setServletRequest(HttpServletRequest request) {
         this.request = request;
@@ -139,6 +142,14 @@ public class TeacherAction extends ActionSupport implements ServletRequestAware 
         this.newScore = newScore;
     }
 
+    public String getRememberMe() {
+        return rememberMe;
+    }
+
+    public void setRememberMe(String rememberMe) {
+        this.rememberMe = rememberMe;
+    }
+
     public String tch_login() throws Exception{
         HttpSession session = request.getSession();
         teacher.setTch_pwd(new String(""+userPwd));
@@ -146,7 +157,35 @@ public class TeacherAction extends ActionSupport implements ServletRequestAware 
         Teacher currentTch = teacherService.findTeacherByIdAndPassword(teacher);
         if (currentTch != null){
             teacher = currentTch;
+
+            Cookie cookie = new Cookie("userId",null);
+            cookie.setMaxAge(0);
+            ServletActionContext.getResponse().addCookie(cookie);
+
+            cookie = new Cookie("userPwd",null);
+            cookie.setMaxAge(0);
+            ServletActionContext.getResponse().addCookie(cookie);
+            MyImage myImage = new MyImage();
+            myImage.setUserId(teacher.getTch_id());
+            myImage = imgService.findImageByUserId(teacher.getTch_id());
+            session.setAttribute("img",myImage);
             session.setAttribute("teacher",teacher);
+
+            if(rememberMe != null){
+                cookie = new Cookie("userId",userId);
+                cookie.setMaxAge(60*60*24*30);
+                ServletActionContext.getResponse().addCookie(cookie);
+
+                cookie = new Cookie("userPwd",userPwd);
+                cookie.setMaxAge(60*60*24*30);
+                ServletActionContext.getResponse().addCookie(cookie);
+
+                cookie = new Cookie("userType","teacher");
+                cookie.setMaxAge(60*60*24*30);
+                ServletActionContext.getResponse().addCookie(cookie);
+
+                System.out.println("成功设置cookies");
+            }
             return "tch_login";
         }else {
             error1 = "用户名或密码错误";
