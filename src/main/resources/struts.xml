@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE struts PUBLIC  
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"  
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.action.extension" value="action" />
+
+	<package name="myedu" namespace="/edu" extends="struts-default">
+
+		<action name="edu1_*" method="{1}" class="pers.lyt.myedu.action.StudentAction">
+			<result name="stu_login">/stu_login.jsp</result>
+			<result name="stu_ppi">/stu_login.jsp</result>
+			<result name="stu_to_ppi">/stu_to_ppi.jsp</result>
+            <result name="error">/index.jsp</result>
+			<result name="stu_regs">/registered.jsp</result>
+			<result name="stu_sub">/stu_sub.jsp</result>
+			<result name="toAdd_sub">/toAdd_sub.jsp</result>
+			<result name="add_sub">/toAdd_sub.jsp</result>
+			<result name="toDelete_sub">/toDelete_sub.jsp</result>
+			<result name="delete_sub">/toDelete_sub.jsp</result>
+			<result name="returnTo_stu">/stu_login.jsp</result>
+			<result name="stu_sub_detail">/stu_sub_detail.jsp</result>
+			<result name="exit">/stu_login.jsp</result>
+			<result name="turn_back">/index.jsp</result>
+            <result name="change_img">/stu_change_img.jsp</result>
+		</action>
+
+		<action name="edu2_*" method="{1}" class="pers.lyt.myedu.action.TeacherAction">
+			<result name="tch_login">/tch_login.jsp</result>
+            <result name="tch_ppi">/tch_login.jsp</result>
+            <result name="tch_to_ppi">/tch_to_ppi.jsp</result>
+            <result name="error">/index.jsp</result>
+			<result name="tch_regs">/registered.jsp</result>
+			<result name="tch_sub">/tch_sub.jsp</result>
+			<result name="toCreate_sub">/create_sub.jsp</result>
+			<result name="toCancel_sub">/toCancel_sub.jsp</result>
+			<result name="cancel_sub">/toCancel_sub.jsp</result>
+			<result name="create_sub">/tch_sub.jsp</result>
+			<result name="returnTo_tch">/tch_login.jsp</result>
+			<result name="tch_sub_detail">/tch_sub_detail.jsp</result>
+			<result name="changeScore">/tch_sub_detail.jsp</result>
+			<result name="exit">/tch_login.jsp</result>
+			<result name="turn_back">/index.jsp</result>
+            <result name="change_img">/tch_change_img.jsp</result>
+		</action>
+
+        <action name="edu_*" method="{1}" class="pers.lyt.myedu.action.Action">
+            <result name="error">/index.jsp</result>
+            <result name="to_regs">/registered.jsp</result>
+            <result name="regs">/registered.jsp</result>
+            <result name="to_login">/index.jsp</result>
+            <result name="tuUpload">/stu_change_img.jsp</result>
+        </action>
+
+		<action name="AddFile_*" method="{1}" class="pers.lyt.myedu.action.AddImgAction">
+			<result name="stu_success" >/stu_to_ppi.jsp</result>
+            <result name="tch_success" >/tch_to_ppi.jsp</result>
+            <result name="stu_error">/stu_login.jsp</result>
+            <result name="tch_error">/tch_login.jsp</result>
+            <interceptor-ref name="fileUpload">
+                <param name="allowedTypes">
+                    image/bmp,image/png,image/gif,image/jpeg,image/jpg
+                </param>
+                <param name="maximumSize">102400</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"/>
+		</action>
+
+        <action name="allFile" class="pers.lyt.myedu.action.AllImg">
+            <result name="showAll">/showAllImg.jsp</result>
+        </action>
+	</package>
+
+</struts>   
