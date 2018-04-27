@@ -47,6 +47,7 @@
 <div align="center">
     <div align="center" style="background:#d6ffdf; width: 100%;height: 500px">
         <form  method="post" name="ppi"action="${pageContext.request.contextPath }/edu/edu2_tch_ppi.action" >
+
             <div style=" margin-left:0px;margin-top:50px" >
                 <select id="selec" name="teacher.tch_sex" value="${teacher.tch_sex}">
                     <option value=0>男</option>

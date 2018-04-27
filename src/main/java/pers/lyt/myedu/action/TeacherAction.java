@@ -203,6 +203,9 @@ public class TeacherAction extends ActionSupport implements ServletRequestAware 
     }
     public String tch_regs() throws Exception{
         HttpSession session = request.getSession();
+        if(teacher == null){
+            teacher = new Teacher();
+        }
         teacher.setTch_pwd(new String(""+userPwd));
         teacher.setTch_id(new Integer(new Integer(userId)));
         teacher.setTch_name(new String(""+userName));

@@ -27,7 +27,7 @@
 <body onload="refrs()">
 <form action="${pageContext.request.contextPath}/edu/edu2_turn_back.action" name="turn" id="turn"></form>
 <%
-    if(session.getAttribute("teacher") == null) {
+    if(session.getAttribute("student") == null) {
 %>
 <script type="text/javascript" language="javascript">
     alert("已安全退出");

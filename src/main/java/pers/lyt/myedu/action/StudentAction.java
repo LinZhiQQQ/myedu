@@ -145,10 +145,8 @@ public class StudentAction extends ActionSupport  implements ServletRequestAware
         this.rememberMe = rememberMe;
     }
 
-    public String stu_login() throws Exception{
+    public String stu_login() throws Exception{ ;
         HttpSession session = request.getSession();
-
-        System.out.println("aaaaa ????");
         if(userPwd == null || userId == null || userPwd.equals("") || userId.equals("")){
             return ERROR;
         }
@@ -182,6 +180,9 @@ public class StudentAction extends ActionSupport  implements ServletRequestAware
     }
     public String stu_regs() throws Exception{
         HttpSession session = request.getSession();
+        if(student == null){
+            student = new Student();
+        }
         student.setStu_pwd(new String(""+userPwd));
         student.setStu_id(new Integer(userId));
         student.setStu_name(new String(""+userName));

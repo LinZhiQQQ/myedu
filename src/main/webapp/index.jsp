@@ -107,6 +107,8 @@
         <div style=" text-align:center">
             <div class="login" style="position:absolute; top:50%;left:50%;margin-top:-100px;margin-left:-200px;background:#d6ffdf; width:400px; height: 210px; border-radius:10px;">
                 <form  method="post" name="login">
+                    <%--<input type="radio" name="v1" value="啊啊啊">1--%>
+                    <%--<input type="radio" name="v1" value="1噢噢噢噢">2--%>
                     <div style=" margin-left:0px;margin-top:50px">
                         <select id="selec" name="selec" value="${selec }">
                             <option value="stu">学生</option>
